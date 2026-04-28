@@ -1,0 +1,124 @@
+# =============================================================================
+# config_foundation_eval.yaml
+# Configuration for evaluating multiple foundation model encoders on the
+# WSI-to-Protein prediction task.
+#
+# Instructions:
+#   1. Set <DATA_ROOT> to the parent directory containing all extracted
+#      patch-level features (organized by encoder and magnification).
+#   2. Uncomment ONE encoder block under "WSI Patch Feature Paths" to select
+#      the foundation model and magnification for the current experiment.
+#   3. Set `initial_checkpoint` to resume from a saved .pth, or "None" to
+#      train from scratch.
+# =============================================================================
+
+
+# -----------------------------------------------------------------------------
+# Training Hyperparameters
+# -----------------------------------------------------------------------------
+seed: 2023
+start_lr: 5e-4
+batch_size: 8
+start_epoch: 0
+Epoch: 10000
+workers: 0
+
+# -----------------------------------------------------------------------------
+# Model Architecture
+# -----------------------------------------------------------------------------
+Cluster_num: 64
+Instance_num: 2048
+Feature_dim: 128
+SwinTransform: 768
+Patch_number: 3000
+Laten_Dim: 512
+Result_Dim: 512
+
+# Hidden dimensions for the encoder layers:
+#   [input_dim, hidden_1, hidden_2, hidden_3]
+Linears_list: [6646, 4096, 2048, 1024]
+Linears_list_WSI: [6409, 4096, 2048, 1024]
+
+# -----------------------------------------------------------------------------
+# Loss Function
+# -----------------------------------------------------------------------------
+cluster_temperature: 1.0
+instance_temperature: 0.5
+lambd: 0.001
+alpha: 0.005
+weight_decay: 0.
+
+# -----------------------------------------------------------------------------
+# Checkpoints
+# -----------------------------------------------------------------------------
+# Set to "None" to train from scratch; otherwise provide the .pth file path.
+initial_checkpoint: None
+Locked_checkpoint: "Result/Foundation_Model_Eval/WSI_TO_Protein.pth"
+Model_Out: "Result/"
+
+# -----------------------------------------------------------------------------
+# WSI Patch Feature Paths — Foundation Model Comparison
+#
+# Each encoder is available at three magnifications: 5X, 10X, 20X.
+# Update <DATA_ROOT> to your local feature directory, then uncomment ONE
+# line per key to select the desired encoder + magnification combination.
+# -----------------------------------------------------------------------------
+
+# -- Reference feature path (for compatibility checks) --
+fundation_path_feature: "<DATA_ROOT>/UNI_20X/CHCAMS_Discovery_UNI.pkl"
+
+## -- UNI --
+CHCAMS_Discovery_UNI_5X:  "<DATA_ROOT>/UNI_5X/CHCAMS_Discovery_5X_UNI.pkl"
+CHCAMS_Discovery_UNI_20X: "<DATA_ROOT>/UNI_20X/CHCAMS_Discovery_UNI.pkl"
+
+## -- CONCH --
+CHCAMS_Discovery_CONCH_5X:  "<DATA_ROOT>/CONCH_5X/CHCAMS_Discovery_5X_CONCH.pkl"
+CHCAMS_Discovery_CONCH_10X: "<DATA_ROOT>/CONCH_10X/Discovery_CHCAMS_CONCH.pkl"
+CHCAMS_Discovery_CONCH_20X: "<DATA_ROOT>/CONCH_20X/CHCAMS_Discovery_20X_CONCH.pkl"
+
+## -- CTransPath --
+CHCAMS_Discovery_CTransPath_5X:  "<DATA_ROOT>/CTransPath_5X/CHCAMS_Discovery_5X_CTransPath.pkl"
+CHCAMS_Discovery_CTransPath_10X: "<DATA_ROOT>/CTransPath_10X/Discovery_CHCAMS_Ctranspath.pkl"
+CHCAMS_Discovery_CTransPath_20X: "<DATA_ROOT>/CTransPath_20X/CHCAMS_Discovery_20X_CTransPath.pkl"
+
+## -- Virchow --
+CHCAMS_Discovery_Virchow_5X:  "<DATA_ROOT>/Virchow_5X/CHCAMS_Discovery_5X_Virchow.pkl"
+CHCAMS_Discovery_Virchow_10X: "<DATA_ROOT>/Virchow_10X/CHCAMS_Discovery_10X_Virchow.pkl"
+CHCAMS_Discovery_Virchow_20X: "<DATA_ROOT>/Virchow_20X/CHCAMS_Discovery_20X_Virchow.pkl"
+
+## -- MUSK --
+CHCAMS_Discovery_MUSK_5X:  "<DATA_ROOT>/MUSK_5X/CHCAMS_Discovery_5X_MUSK.pkl"
+CHCAMS_Discovery_MUSK_10X: "<DATA_ROOT>/MUSK_10X/CHCAMS_Discovery_10X_MUSK.pkl"
+CHCAMS_Discovery_MUSK_20X: "<DATA_ROOT>/MUSK_20X/CHCAMS_Discovery_20X_MUSK.pkl"
+
+## -- Phikon --
+CHCAMS_Discovery_Phikon_5X:  "<DATA_ROOT>/Phikon_5X/CHCAMS_Discovery_5X_Phikon.pkl"
+CHCAMS_Discovery_Phikon_10X: "<DATA_ROOT>/Phikon_10X/CHCAMS_Discovery_10X_Phikon.pkl"
+CHCAMS_Discovery_Phikon_20X: "<DATA_ROOT>/Phikon_20X/CHCAMS_Discovery_20X_Phikon.pkl"
+
+# -----------------------------------------------------------------------------
+# Predicted Protein Output Logs
+# -----------------------------------------------------------------------------
+Train_PreProtein:  "Log/UNI_Log/Train_PreProtein.csv"
+Test_PreProtein:   "Log/UNI_Log/Test_PreProtein.csv"
+CHCAMS_PreProtein: "Log/UNI_Log/CHCAMS_External_PreProtein.csv"
+HMUCH_PreProtein:  "Log/UNI_Log/HMUCH_PreProtein.csv"
+TMUGH_PreProtein:  "Log/UNI_Log/TMUGH_PreProtein.csv"
+
+# -----------------------------------------------------------------------------
+# Clinical Data Paths
+# -----------------------------------------------------------------------------
+CHCAMS_Discovery_Clincial: "./Datasets/Clinical/CHCAMS_Discovery_Clinical.csv"
+CHCAMS_External_Clincial:  "./Datasets/Clinical/CHCAMS_External_Clinical.csv"
+HMUCH_External_Clincial:   "./Datasets/Clinical/HMUCH_External_Clinical.csv"
+TMUGH_External_Clincial:   "./Datasets/Clinical/TMUGH_External_Clinical.csv"
+
+# Train / test split annotation files
+CHCAMS_Train_Clincial: "./Datasets/Clinical/CHCAMS_Train.csv"
+CHCAMS_Test_Clincial:  "./Datasets/Clinical/CHCAMS_Test.csv"
+
+# -----------------------------------------------------------------------------
+# Proteomics Data Path
+# -----------------------------------------------------------------------------
+CHCAMS_Protein: "./Datasets/Protein/SCLC_Protein.csv"
+
