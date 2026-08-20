@@ -1,6 +1,6 @@
 # PROMISE
 
-PROMISE (Proteomics-guided Multimodal Integration for Survival Estimation) is a proteomics-guided multimodal deep learning workflow for prognosis and risk stratification in surgically resected small cell lung cancer (SCLC). The framework learns from routine H&E-stained whole-slide images (WSIs) and paired quantitative proteomic profiles during model development, and is designed to support WSI-only risk prediction at inference time.
+PROMISE (PROteomics-guided Multimodal Integration for Survival Estimation) is a computational pathology framework that leverages proteomic supervision to learn molecularly informed histopathological representations capturing clinically relevant tumor states, yet requires only routine histopathology images at inference time for prognostic assessment and risk stratification in patients with surgically resected small cell lung cancer (SCLC).
 <p align="center">
   <img src="assets/graphical_abstract.png" alt="HistoProt graphical abstract" width="1000">
 </p>
